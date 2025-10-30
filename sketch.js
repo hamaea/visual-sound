@@ -43,5 +43,5 @@ function mouseClicked(){
     sound.pause();
   } else {
     sound.play();
-  }Ï
+  }
 }
