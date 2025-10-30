@@ -1,4 +1,4 @@
-let video;
+let img;
 let sound;
 let amp;
 let fft;
@@ -7,18 +7,12 @@ let level;
 let spectrum;
 
 function preload() {
+  img = loadImage("assets/IMAGE1.jpg"); // change to your image filename
   sound = loadSound("assets/song01.mp3");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  
-  // Create video element
-  video = createVideo("assets/trialvideo2.mp4");
-  video.hide(); // Hide the default HTML video element
-  video.loop(); // Make it loop
-  video.volume(0); // Mute the video (since you have your own audio)
-  
   amp = new p5.Amplitude();
   fft = new p5.FFT();
   
@@ -29,8 +23,8 @@ function setup() {
       x: random(width),
       y: random(height),
       size: size,
-      speedX: random(-3, 3),
-      speedY: random(-3, 3),
+      speedX: random(-3, 3), // faster horizontal speed
+      speedY: random(-3, 3),  // faster vertical speed
       sensitivity: random(0.5, 2)
     });
   }
@@ -40,21 +34,23 @@ function setup() {
 function draw() {
   background(220);
   
-  // Draw video as background
+  // Fit image to full screen
   imageMode(CORNER);
-  image(video, 0, 0, width, height);
+  image(img, 0, 0, width, height);
   
-  let level = amp.getLevel();
-  let spectrum = fft.analyze();
+  let level = amp.getLevel(); // overall loudness (0 → 1);
+  let spectrum = fft.analyze(); // frequency array (0–255);
   
   // Update and draw squares
   push();
   blendMode(DIFFERENCE);
   fill(255);
   for (let i = 0; i < rectangles.length; i++) {
+    // Move squares faster
     rectangles[i].x += rectangles[i].speedX * (1 + level * 20);
     rectangles[i].y += rectangles[i].speedY * (1 + level * 20);
     
+    // Wrap around screen edges
     if (rectangles[i].x > (width + 90)) rectangles[i].x = 0;
     if (rectangles[i].x < (0 - 90)) rectangles[i].x = width;
     if (rectangles[i].y > (height + 90)) rectangles[i].y = 0;
@@ -62,6 +58,7 @@ function draw() {
     
     rectangles[i].size = map(level * rectangles[i].sensitivity, 0, 0.3, 10, 120);
     
+    // Draw square
     rect(rectangles[i].x, rectangles[i].y, rectangles[i].size, rectangles[i].size);
   }
   pop();
