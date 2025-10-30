@@ -9,7 +9,7 @@ let play = false;
 
 function preload(){
   img = loadImage("assets/IMAGE1.jpg");
-  sound = loadSound("assets/sound01.mp3");
+  sound = loadSound("assets/song01.mp3");
 }
 
 function setup() {
