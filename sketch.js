@@ -7,7 +7,7 @@ let fft; //https://p5js.org/reference/p5.sound/p5.FFT/
 let play = false;
 
 function preload() {
-  img = loadImage("assets/IMAGE1.jpg");
+  img = loadImage("assets/IMAGE2.jpg");
   sound = loadSound("assets/song01.mp3");
 }
 
