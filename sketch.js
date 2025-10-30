@@ -1,10 +1,7 @@
 let img;
 let sound;
-
-let amp; //https://p5js.org/reference/p5.sound/p5.Amplitude/
-let fft; //https://p5js.org/reference/p5.sound/p5.FFT/
-
-let play = false;
+let amp; 
+let fft;
 
 function preload() {
   img = loadImage("assets/IMAGE2.jpg");
@@ -15,51 +12,54 @@ function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   amp = new p5.Amplitude();
   fft = new p5.FFT();
+
+  amp.setInput(sound);
+  fft.setInput(sound);
 }
 
 function draw() {
-  background(220);
+  background(0); // darker so shapes pop
 
   imageMode(CENTER);
   image(img, width / 2, height / 2);
 
-  let level = amp.getLevel(); // overall loudness (0 → 1);
-  let spectrum = fft.analyze(); // frequency array (0–255);
+  // get sound data?
+  const level = amp.getLevel();            // ~0.000–0.05 
+  const spectrum = fft.analyze();          // 0–255 per bin
 
-  console.log("Amplitude:", level);
-  console.log("First frequency value:", spectrum[0]);
+  // make size actually visible; clamp result
+  const sizeBase = map(level, 0, 0.05, 8, 220, true);
 
-for (let i = 0; i < 20; i++) {
-  // use fft to get random energy across spectrum
-  let freq = spectrum[int(random(spectrum.length))];
-  
-  // map amplitude (loudness) to size
-  let size = map(level, 0, 0.3, 10, 200);
-
-  // random positions
-  let x = random(width);
-  let y = random(height);
-
-  // color reacts to frequency value
-  fill(freq, 255 - freq, 255, 150);
   noStroke();
-  rect(x, y, size, size);
-}
-  
-  // push();
-  // blendMode(DIFFERENCE);
-  // fill(255);
-  // rect(width / 2, height / 2, 100, 100);
-  // pop();
+  // draw a guaranteed visible test rect
+  fill(255, 0, 0); 
+  rect(20, 20, 30, 30);
+
+  // sound-reactive rectangles
+  for (let i = 0; i < 20; i++) {
+    const freq = spectrum[int(random(spectrum.length))]; // 0–255
+
+    const x = random(width);
+    const y = random(height);
+    const s = sizeBase; // use amplitude for size
+
+    // use freq to drive color; full opacity for now
+    fill(freq, 255 - freq, 255);
+    rect(x, y, s, s);
+  }
 }
 
 function mouseClicked() {
-  userStartAudio(); //https://p5js.org/reference/p5/userStartAudio/
+  userStartAudio(); // required for autoplay policies
   if (sound.isPlaying()) {
-    sound.pause(); // pause if currently playing
+    sound.pause();
   } else {
-    // restart from the beginning & loop automatically
+    // restart from beginning and loop forever
     sound.stop();
     sound.loop();
+
+    // re-attach
+    amp.setInput(sound);
+    fft.setInput(sound);
   }
 }
