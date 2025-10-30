@@ -29,7 +29,7 @@ function setup() {
       sensitivity: random(0.5, 2)
     });
   }
-
+rectMode(CENTER);
 }
 
 function draw() {
