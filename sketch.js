@@ -43,5 +43,7 @@ function mouseClicked(){
     sound.pause();
   } else {
     sound.loop();
-  }
+  } else if (!sound.isPlaying()){
+    sound.loop();
+   }
 }
