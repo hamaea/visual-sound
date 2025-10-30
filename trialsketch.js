@@ -14,7 +14,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   
   // Create video element
-  video = createVideo("assets/trialvideo1.mov");
+  video = createVideo("assets/trialvideo2.mp4");
   video.hide(); // Hide the default HTML video element
   video.loop(); // Make it loop
   video.volume(0); // Mute the video (since you have your own audio)
