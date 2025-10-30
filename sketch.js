@@ -1,7 +1,10 @@
 let img;
 let sound;
-let amp; 
-let fft;
+
+let amp; //https://p5js.org/reference/p5.sound/p5.Amplitude/
+let fft; //https://p5js.org/reference/p5.sound/p5.FFT/
+
+let play = false;
 
 function preload() {
   img = loadImage("assets/IMAGE2.jpg");
@@ -12,54 +15,34 @@ function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   amp = new p5.Amplitude();
   fft = new p5.FFT();
-
-  amp.setInput(sound);
-  fft.setInput(sound);
 }
 
 function draw() {
-  background(0); // darker so shapes pop
+  background(220);
 
   imageMode(CENTER);
   image(img, width / 2, height / 2);
 
-  // get sound data?
-  const level = amp.getLevel();            // ~0.000–0.05 
-  const spectrum = fft.analyze();          // 0–255 per bin
+  let level = amp.getLevel(); // overall loudness (0 → 1);
+  let spectrum = fft.analyze(); // frequency array (0–255);
 
-  // make size actually visible; clamp result
-  const sizeBase = map(level, 0, 0.05, 8, 220, true);
+  console.log("Amplitude:", level);
+  console.log("First frequency value:", spectrum[0]);
 
-  noStroke();
-  // draw a guaranteed visible test rect
-  fill(255, 0, 0); 
-  rect(20, 20, 30, 30);
-
-  // sound-reactive rectangles
-  for (let i = 0; i < 20; i++) {
-    const freq = spectrum[int(random(spectrum.length))]; // 0–255
-
-    const x = random(width);
-    const y = random(height);
-    const s = sizeBase; // use amplitude for size
-
-    // use freq to drive color; full opacity for now
-    fill(freq, 255 - freq, 255);
-    rect(x, y, s, s);
-  }
+  push();
+  blendMode(DIFFERENCE);
+  fill(255);
+  rect(width / 2, height / 2, 100, 100);
+  pop();
 }
 
 function mouseClicked() {
-  userStartAudio(); // required for autoplay policies
+  userStartAudio(); //https://p5js.org/reference/p5/userStartAudio/
   if (sound.isPlaying()) {
-    sound.pause();
+    sound.pause(); // pause if currently playing
   } else {
-    // restart from beginning and loop forever
+    // restart from the beginning & loop automatically
     sound.stop();
     sound.loop();
-
-    // re-attach
-    amp.setInput(sound);
-    fft.setInput(sound);
   }
 }
