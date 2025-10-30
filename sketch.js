@@ -1,12 +1,9 @@
 let img;
 let sound;
-
-let amp; //https://p5js.org/reference/p5.sound/p5.Amplitude/
-let fft; //https://p5js.org/reference/p5.sound/p5.FFT/
-
+let amp;
+let fft;
 let play = false;
-
-let rectangles = []; // array to store rectangle positions
+let rectangles = []; 
 
 function preload(){
   img = loadImage("assets/IMAGE1.jpg");
@@ -18,7 +15,7 @@ function setup() {
   amp = new p5.Amplitude();
   fft = new p5.FFT();
   
-  // Create scattered rectangles with random positions and sizes
+ 
   for (let i = 0; i < 15; i++) {
     rectangles.push({
       x: random(width),
@@ -31,33 +28,33 @@ function setup() {
 
 function draw() {
   background(220);
+  
 
-  imageMode(CENTER);
-  image(img, width / 2, height / 2);
-
-  let level = amp.getLevel(); // overall loudness (0 → 1);
-  let spectrum = fft.analyze(); // frequency array (0–255);
-
+  imageMode(CORNER);
+  image(img, 0, 0, width, height);
+  
+  let level = amp.getLevel();
+  let spectrum = fft.analyze();
+  
   console.log("Amplitude:", level);
   console.log("First frequency value:", spectrum[0]);
-
+  
   push();
   blendMode(DIFFERENCE);
   fill(255);
   
-  for (let r of rectangles) {
-    rect(rect.x, rect.y, rect.w, rect.h);
+  for (let r of rectangles) {  
+    rect(r.x, r.y, r.w, r.h);  
   }
   
   pop();
 }
 
 function mouseClicked() {
-  userStartAudio(); //https://p5js.org/reference/p5/userStartAudio/
+  userStartAudio();
   if (sound.isPlaying()) {
-    sound.pause(); // pause if currently playing
+    sound.pause();
   } else {
-    // restart from the beginning & loop automatically
     sound.stop();
     sound.loop();
   }
