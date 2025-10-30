@@ -8,7 +8,7 @@ let level;
 let spectrum;
 
 function preload() {
-  img = loadImage("assets/IMAGE2.jpg");
+  img = loadImage("assets/trialvideo1.mov");
   sound = loadSound("assets/song01.mp3");
 }
 
