@@ -2,7 +2,6 @@ let img;
 let sound;
 let amp;
 let fft;
-let play = false;
 let rectangles = [];
 
 function preload(){
@@ -15,17 +14,15 @@ function setup() {
   amp = new p5.Amplitude();
   fft = new p5.FFT();
   
-  // Create scattered rectangles with random positions and sizes
-  for (let i = 0; i < 15; i++) {
+  // Create scattered squares with same width/height but different sizes
+  for (let i = 0; i < 5; i++) {
+    let size = random(20, 80); // random size for each square
     rectangles.push({
       x: random(width),
       y: random(height),
-      w: random(50, 150),
-      h: random(50, 150)
+      size: size  // same width and height = square
     });
   }
-  
-  console.log("Rectangles created:", rectangles.length);
 }
 
 function draw() {
@@ -38,14 +35,13 @@ function draw() {
   let level = amp.getLevel();
   let spectrum = fft.analyze();
   
-  // Draw rectangles
+  // Draw squares - all same cyan color
   push();
-  blendMode(DIFFERENCE);
-  fill(255);
+  fill(0, 255, 255); // cyan color
   noStroke();
   
   for (let i = 0; i < rectangles.length; i++) {
-    rect(rectangles[i].x, rectangles[i].y, rectangles[i].w, rectangles[i].h);
+    rect(rectangles[i].x, rectangles[i].y, rectangles[i].size, rectangles[i].size);
   }
   
   pop();
