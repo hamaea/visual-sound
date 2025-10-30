@@ -39,11 +39,11 @@ let spectrum = fft.analyze(); // frequency array (0–255);
 }
 
 function mouseClicked(){
-   if (sound.isPlaying()) {
-    sound.pause();
+     if (sound.isPlaying()) {
+    sound.pause(); // pause if currently playing
   } else {
+    // restart from the beginning & loop automatically
+    sound.stop();
     sound.loop();
-  } else if (!sound.isPlaying()){
-    sound.loop();
-   }
+  }
 }
