@@ -42,6 +42,6 @@ function mouseClicked(){
    if (sound.isPlaying()) {
     sound.pause();
   } else {
-    sound.play();
+    sound.loop();
   }
 }
