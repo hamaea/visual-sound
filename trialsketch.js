@@ -2,7 +2,7 @@ let fft;
 let rectangles = [];
 
 function preload(){
-  img = loadImage("assets/IMAGE2.jpg");
+  img = loadImage("assets/IMAGE1.jpg");
 let level;
 let spectrum;
 
