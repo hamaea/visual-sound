@@ -45,10 +45,8 @@ function draw() {
   blendMode(DIFFERENCE);
   fill(255);
   
-  for (let rect of rectangles) {
-    push();
+  for (let r of rectangles) {
     rect(rect.x, rect.y, rect.w, rect.h);
-    pop();
   }
   
   pop();
