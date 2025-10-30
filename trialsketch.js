@@ -18,15 +18,15 @@ function setup() {
   sound.loop();
   userStartAudio();
   
-  // Create scattered squares with different sizes and speeds
-  for (let i = 0; i < 5; i++) {
+  // Create more scattered squares with different sizes and faster speeds
+  for (let i = 0; i < 15; i++) {
     let size = random(20, 80);
     rectangles.push({
       x: random(width),
       y: random(height),
       size: size,
-      speedX: random(-0.5, 0.5), // slower horizontal speed
-      speedY: random(-0.5, 0.5)  // slower vertical speed
+      speedX: random(-2, 2), // faster horizontal speed
+      speedY: random(-2, 2)  // faster vertical speed
     });
   }
 }
@@ -47,7 +47,7 @@ function draw() {
   noStroke();
   
   for (let i = 0; i < rectangles.length; i++) {
-    // Move squares slowly
+    // Move squares faster
     rectangles[i].x += rectangles[i].speedX;
     rectangles[i].y += rectangles[i].speedY;
     
