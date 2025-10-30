@@ -24,6 +24,8 @@ function setup() {
       h: random(50, 150)
     });
   }
+  
+  console.log("Rectangles created:", rectangles.length);
 }
 
 function draw() {
@@ -36,22 +38,16 @@ function draw() {
   let level = amp.getLevel();
   let spectrum = fft.analyze();
   
-  // Draw rectangles with stronger visibility
+  // Draw rectangles
   push();
   blendMode(DIFFERENCE);
-  fill(255, 255, 0); // Try yellow instead of white
+  fill(255);
   noStroke();
   
   for (let i = 0; i < rectangles.length; i++) {
     rect(rectangles[i].x, rectangles[i].y, rectangles[i].w, rectangles[i].h);
   }
   
-  pop();
-  
-  // TEST: Draw one bright rectangle to confirm drawing works
-  push();
-  fill(255, 0, 0); // Bright red, no blend mode
-  rect(100, 100, 100, 100);
   pop();
 }
 
