@@ -6,15 +6,27 @@ let fft; //https://p5js.org/reference/p5.sound/p5.FFT/
 
 let play = false;
 
-function preload() {
-  img = loadImage("assets/IMAGE2.jpg");
+let rectangles = []; // array to store rectangle positions
+
+function preload(){
+  img = loadImage("assets/IMAGE1.jpg");
   sound = loadSound("assets/song01.mp3");
 }
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight);
+  createCanvas(windowWidth, windowHeight);
   amp = new p5.Amplitude();
   fft = new p5.FFT();
+  
+  // Create scattered rectangles with random positions and sizes
+  for (let i = 0; i < 15; i++) {
+    rectangles.push({
+      x: random(width),
+      y: random(height),
+      w: random(50, 150),
+      h: random(50, 150)
+    });
+  }
 }
 
 function draw() {
